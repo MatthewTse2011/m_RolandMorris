@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Roland-Morris Score Calculator</title>
+	<title>STarT Back Score Calculator</title>
 	<style>
 		@font-face{
 			font-family: 'Source Code Pro';
@@ -57,7 +57,7 @@
 			border-radius: 5px;
 			font-size: 30px;
 			background-color: rgb(224, 233, 246);
-			line-height: 2;
+			line-height: 1.5;
 		}
 
 		input {
@@ -194,7 +194,7 @@
 	
 
 
-        /* for design for mobile version*/
+         /* for design for mobile version*/
 		form {
 			font-size: 60px;
             line-height: 2;
@@ -255,15 +255,10 @@
 			font-size: 60px;
             line-height: 2;
 		}
-        input[type="checkbox"] {
-          transform: scale(3);
-          margin-right: 20px;
-        }
-
 
 	</style>
 	<script type="text/javascript">
-		function showPopup(message) {
+        function showPopup(message) {
 			var popup = document.getElementById("popup");
 			var messageElement = popup.querySelector(".popup-message");
 			messageElement.innerHTML = message;
@@ -281,21 +276,30 @@
 			var values = document.getElementsByClassName("score");
 			var totalScore = 0;
 			var totalQuestions = 0;
+            var subScore = 0;
 			for(var i = 0; i < values.length; i++) {
 				if(values[i].checked) {
 					totalScore += parseFloat(values[i].value);
 					totalQuestions++;
+                    if(totalQuestions > 4){
+                        subScore += parseFloat(values[i].value);
+                    }
 				}
 			}
 
-            var quickDASHscore = totalScore;
-            document.getElementById("result").innerHTML = "非常感謝您完成了這份調查中所有的問題<br><br>請勿關閉此頁面，並將以下資料展示給物理治療師。<br> Your Total Score is: " + quickDASHscore ;
-            var popup = showPopup("非常感謝您完成了這份調查中所有的問題<br><br>請勿關閉此頁面，並將以下資料展示給物理治療師。<br> Your Total Score is: " + quickDASHscore);
-
-            var okButton = popup.querySelector(".popup-button");
+            if (totalQuestions >= 9){
+				document.getElementById("result").innerHTML = "非常感謝您完成了這份調查中所有的問題<br><br>請勿關閉此頁面，並將以下資料展示給物理治療師。<br><br> Your Total score is: " + totalScore + "<br> Your Subscore is: " + subScore;
+				var popup = showPopup("非常感謝您完成了這份調查中所有的問題<br><br>請勿關閉此頁面，並將以下資料展示給物理治療師。<br><br> Your Total score is: " + totalScore + "<br> Your Subscore is: " + subScore);
+			} else {
+				document.getElementById("result").innerHTML = "你尚有" + (9 - totalQuestions)+ "條問題未回答<br>";
+				var popup = showPopup("你尚有" + (9 - totalQuestions)+ "條問題未回答。<br>請返回並繼續作答。");
+			}
+    
+			var okButton = popup.querySelector(".popup-button");
 			okButton.addEventListener("click", function() {
 				hidePopup(popup);
 			});
+
 
 		}
 
@@ -303,33 +307,12 @@
     		document.getElementById("result").innerHTML = "";
 		}
 
-        /*
-        function radioClick(clickedRadio) {
-
-            var radios = document.getElementsByName(clickedRadio.name);
-            if (radio.checked) {
-                // radio button is currently selected, unselect it
-                radio.checked = false;
-            } else {
-                // radio button is currently unselected, select it
-                radio.checked = true;
-            }
-            /*
-            for (var i = 0; i < radios.length; i++) {
-                if (radios[i] !== clickedRadio) {
-                radios[i].checked = false;
-                }
-            }
-            
-        }
-        */
-
 
 	</script>
 </head>
 <body>
     <br><br><br><br><br>
-	<h1>盧倫摩理氏背痛問卷</h1>
+	<h1>STarT 背部檢測工具</h1>
     <button class = "increase-font-size-btn" id="increase-font-button">大
     </button>
 
@@ -400,61 +383,40 @@
 
 	<h2> 威爾斯親王醫院 物理治療部</h2>
 	<form>
-        <script>
-           
-        </script>
-		<p>當背部痛楚或不適時，你或會發覺自己未能像以往般工作。
-            下列句子是一些患有背痛的人用來形容自己的，當你看到這些句子，你會發現其中一些適合形容你今日的情況，
-            當你發現句子恰當地形容你今日的情況，請加上✔號，如句子不適用，則繼續下一句子。請緊記，只需要✔上那些確切符合形容你今日情況的句子。</p>
-            <p> </p>
-			<input type="checkbox" name="section1" value="1" onclick="radioClick(name)" class="score"> 1. 因為腰背／下肢影響，我經常留在家中。
-            <br>
-			<input type="checkbox" name="section2" value="1" class="score"> 2. 我經常轉換姿勢，保持背部／下肢舒適。
-            <br>
-			<input type="checkbox" name="section3" value="1" class="score"> 3. 因為腰背／下肢影響，我走得比平常慢。
-            <br>
-			<input type="checkbox" name="section4" value="1" class="score"> 4. 因為腰背／下肢影響，我已停止做日常負責的家務。
-            <br>
-			<input type="checkbox" name="section5" value="1" class="score"> 5. 因為腰背／下肢影響，我上樓梯時要利用扶手。
-            <br>
-            <input type="checkbox" name="section6" value="1" class="score"> 6. 因為腰背／下肢影響，我比平常較多時間躺下休息。
+		<p>請按過去兩周內的情況來回答下列問題。</p>
 			<br>
-			<input type="checkbox" name="section7" value="1" class="score"> 7. 因為腰背／下肢影響，我需要扶著東西才能從梳化站起來。
-            <br>
-			<input type="checkbox" name="section8" value="1" class="score"> 8. 因為腰背／下肢影響，我嘗試請別人替我完成一些事情。
-            <br>
-			<input type="checkbox" name="section9" value="1" class="score"> 9. 因為腰背／下肢影響，我穿衣比平常緩慢
-            <br>
-			<input type="checkbox" name="section10" value="1" class="score"> 10. 因為腰背／下肢影響，我只可站立一段短時間。
-			<br>
-			<input type="checkbox" name="section11" value="1" class="score"> 11. 因為腰背／下肢影響，我避免彎腰或跪下。
-            <br>
-			<input type="checkbox" name="section12" value="1" class="score"> 12. 因為腰背／下肢影響，我坐在椅子上很難才能站起。
-            <br>
-			<input type="checkbox" name="section13" value="1" class="score"> 13. 我的腰背／下肢背部差不多每時每刻都痛楚。
-            <br>
-			<input type="checkbox" name="section14" value="1" class="score"> 14. 因為腰背／下肢影響，睡在床上，很難轉身。
-            <br>
-			<input type="checkbox" name="section15" value="1" class="score"> 15. 因為腰背／下肢痛，我的胃口不佳。
-            <br>
-            <input type="checkbox" name="section16" value="1" class="score"> 16. 因為腰背／下肢痛，穿襪子或襪褲時會有困難。
-			<br>
-			<input type="checkbox" name="section17" value="1" class="score"> 17. 因為腰背／下肢痛，我只能走一段短距離。
-            <br>
-			<input type="checkbox" name="section18" value="1" class="score"> 18. 因為腰背／下肢影響，我睡得不好。
-            <br>
-			<input type="checkbox" name="section19" value="1" class="score"> 19. 因為腰背／下肢痛，我需要別人協助穿衣服。
-            <br>
-			<input type="checkbox" name="section20" value="1" class="score"> 20. 因為腰背／下肢影響，我每天大部份時間都是坐著。
-            <br>
-			<input type="checkbox" name="section21" value="1" class="score"> 21. 因為腰背／下肢影響，我避免做家中粗重的工作。
-			<br>
-			<input type="checkbox" name="section22" value="1" class="score"> 22. 因為腰背／下肢痛，我的脾氣比平常差。
-            <br>
-			<input type="checkbox" name="section23" value="1" class="score"> 23. 因為腰背／下肢影響，我上樓梯比平常緩慢。
-            <br>
-			<input type="checkbox" name="section24" value="1" class="score"> 24. 因為腰背／下肢影響，我大部份時間睡在床。
+			<p>1. 在過去兩周内，我的背痛有時已經擴散到腿部。</p>
+			<input type="radio" name="section1" value="1" class="score"> 同意
+			<input type="radio" name="section1" value="0" class="score"> 不同意
+			<br><br><p>2. 在過去兩周内，我有時會有肩或頸部疼痛的情況。</p>
+			<input type="radio" name="section2" value="1" class="score"> 同意
+			<input type="radio" name="section2" value="0" class="score"> 不同意
+			<br><br><p>3. 我曾因為背痛而僅能短距離行走。</p>
+			<input type="radio" name="section3" value="1" class="score"> 同意
+			<input type="radio" name="section3" value="0" class="score"> 不同意
+			<br><br><p>4. 在過去兩周內，我曾因為背痛導致穿衣服的速度比平常綬慢。</p>
+			<input type="radio" name="section4" value="1" class="score"> 同意
+			<input type="radio" name="section4" value="0" class="score"> 不同意
+			<br><br><p>5. 我認為對于一個和我有相同狀況的人來說，體力活動是不安全的。</p>
+			<input type="radio" name="section5" value="1" class="score"> 同意
+			<input type="radio" name="section5" value="0" class="score"> 不同意
+			<br><br><p>6. 我常會擔心我的背痛。</p>
+			<input type="radio" name="section6" value="1" class="score"> 同意
+			<input type="radio" name="section6" value="0" class="score"> 不同意
+			<br><br><p>7. 我覺得我的背痛很嚴重，且不會得到任何改善。</p>
+			<input type="radio" name="section7" value="1" class="score"> 同意
+			<input type="radio" name="section7" value="0" class="score"> 不同意
+			<br><br><p>8. 整體而言，我不再享受過去喜歡做的事。</p>
+			<input type="radio" name="section8" value="1" class="score"> 同意
+			<input type="radio" name="section8" value="0" class="score"> 不同意
+			<br><br><p>9. 整體而言，過去兩周内背痛對您的影响程度如何？</p>
+			<input type="radio" name="section9" value="0" class="score"> 完全不受影响
+			<input type="radio" name="section9" value="0" class="score"> 輕微影响
+			<input type="radio" name="section9" value="0" class="score"> 中度影响
+			<input type="radio" name="section9" value="1" class="score"> 非常影响
+			<input type="radio" name="section9" value="1" class="score"> 重度影响
 		<br>
+        <br>
 		<div id="result"></div>
 		<br>
 		<div class="button-container">
